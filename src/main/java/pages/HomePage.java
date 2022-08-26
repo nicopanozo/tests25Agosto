@@ -42,4 +42,58 @@ public class HomePage {
     public void clickOnRemoveBackPack(){
         sauceLabsBackPackRemoveButton.click();
     }
+
+    // FILTROS -----------------------------------------
+    @FindBy(className = "product_sort_container")
+    WebElement containerFiltros;
+    public void clickOnContainer(){
+        containerFiltros.click();
+    }
+    public String getTextFiltros(){
+        String textoFiltros = containerFiltros.getText();
+        return textoFiltros;
+    }
+    /*
+    public String selectFiltro(){
+
+        return ;
+    }
+    */
+    // MENU -----------------------------------------
+
+    @FindBy(id = "react-burger-menu-btn")
+    WebElement botonMenu;
+
+    @FindBy(id = "about_sidebar_link")
+    WebElement sliderMenu;
+
+    @FindBy(className = "nav-image-link")
+    WebElement elementoPaginaAbout;
+    public void clickOnMenu(){
+        botonMenu.click();
+    }
+
+    public void clickOnAbout(){
+        sliderMenu.click();
+    }
+
+    public boolean verifyElementAboutPage() {
+        boolean verifyElementAboutPage = elementoPaginaAbout.isDisplayed();
+        return verifyElementAboutPage;
+    }
+    //----------Descripcion
+
+    @FindBy(className = "inventory_item_name")
+    WebElement nombreItem;
+
+    public void clickOnNombreItem(){
+        nombreItem.click();
+    }
+
+    @FindBy(id = "back-to-products")
+    WebElement botonBackToProducts;
+    public boolean verifyElementBotonBack() {
+        boolean verifyElementBotonBack = botonBackToProducts.isDisplayed();
+        return verifyElementBotonBack;
+    }
 }
