@@ -1,8 +1,11 @@
+import com.google.common.collect.Ordering;
 import org.junit.Assert;
 import org.junit.Test;
 import pages.HomePage;
 import pages.LoginPage;
 import utilities.DriverManager;
+
+import java.util.List;
 
 public class HomeTests extends BaseTest {
 
@@ -30,16 +33,6 @@ public class HomeTests extends BaseTest {
         homePage.clickOnRemoveBackPack();
         System.out.println(homePage.getTextItemCarrito());
         Assert.assertNotEquals(homePage.getTextItemCarrito(),"1");
-    }
-
-
-    @Test
-    public void verificarFuncionPrimerFiltro(){
-        HomePage homePage = new HomePage(DriverManager.getDriver().driver);
-        homePage.clickOnContainer();
-        homePage.clickOnContainer();
-
-        Assert.assertEquals(homePage.getTextFiltros(),"NAME (Z TO A)");
     }
 
     /*
@@ -85,5 +78,49 @@ public class HomeTests extends BaseTest {
         homePage.clickOnNombreItem();
         Assert.assertTrue(homePage.verifyElementBotonBack());
         //Assert.assertTrue(homePage.verifyElementAboutPage());
+    }
+
+    @Test
+    public void verifyHighToLowPriceItemFilterTest() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver().driver);
+        loginPage.setUsernameTextBox("standard_user");
+        loginPage.setPasswordTextBox("secret_sauce");
+        loginPage.clickLoginButton();
+        //Filtrando
+        HomePage homePage = new HomePage(DriverManager.getDriver().driver);
+        homePage.selectProductFilter("Price (low to high)");
+
+        Thread.sleep(5000);
+        List<Double> prices = homePage.getAllItemPrices();
+
+        for (Double price:prices){
+            System.out.println(price);
+        }
+        //boolean pricesAreSorted = Ordering.natural().reverse().isOrdered(prices);
+        boolean pricesAreSorted = Ordering.natural().isOrdered(prices);
+        Assert.assertTrue(pricesAreSorted);
+
+    }
+
+    @Test
+    public void verifyLowToHighPriceItemFilterTest() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(DriverManager.getDriver().driver);
+        loginPage.setUsernameTextBox("standard_user");
+        loginPage.setPasswordTextBox("secret_sauce");
+        loginPage.clickLoginButton();
+        //Filtrando
+        HomePage homePage = new HomePage(DriverManager.getDriver().driver);
+        homePage.selectProductFilter("Price (high to low)");
+
+        Thread.sleep(5000);
+        List<Double> prices = homePage.getAllItemPrices();
+
+        for (Double price:prices){
+            System.out.println(price);
+        }
+        boolean pricesAreSorted = Ordering.natural().reverse().isOrdered(prices);
+        //boolean pricesAreSorted = Ordering.natural().isOrdered(prices);
+        Assert.assertTrue(pricesAreSorted);
+
     }
 }
